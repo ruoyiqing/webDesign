@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>getElementByTagName()</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <script language="JavaScript">
+        function searchDOM(){
+            var oLi = document.getElementsByTagName("li");
+            alert(oLi.length+", "+oLi[0].tagName+", "+oLi[0].nodeValue+","+oLi[0].nodeName+","+oLi[0].nodeType+","+oLi[0].firstChild.nodeName+","+oLi[0].firstChild.nodeValue+","+oLi[0].firstChild.nodeType+","+oLi[0].childNodes.length+","+oLi[0].getAttribute("title"));
+        }
+        function findChildNodes(){
+            var olist = document.getElementById("firstlist");
+            var DOMString = "";
+            if(olist.hasChildNodes()){
+                var oLi = olist.childNodes;
+                for(var i = 0;i<oLi.length;i++){
+                    DOMString += oLi[i].nodeName+"\n";
+                }
+                alert(DOMString);
+            }
+        }
+        function nextSib(node){
+            var tempLast = node.parentNode.lastChild;
+            if(tempLast == node){
+                return null;
+            }
+            var tempNext = node.nextSibling;
+
+            while( tempNext != null && tempNext.nodeType != 1 ){
+                tempNext = tempNext.nextSibling;
+            }
+            if(tempNext == null){
+                return null;
+            }
+            return (tempNext.nodeType == 1) ? tempNext:null;
+        }
+        function preSib(node){
+            var tempFirst = node.parentNode.firstChild;
+            if(tempFirst == node){
+                return null;
+            }
+            var tempPre = node.previousSibling;
+            while(tempPre != null && tempPre.nodeType != 1){
+                tempPre = tempPre.previousSibling;
+            }
+            if(tempFirst == null){
+                return null;
+            }
+            return (tempPre.nodeType == 1)? tempPre:null;
+        }
+        function myDOMInspector(){
+            var item = document.getElementById("css");
+            var nextItem = nextSib(item);
+            var preItem = preSib(item);
+            alert("next: " + ((nextItem != null)?nextItem.firstChild.nodeValue:null) + " previous: " + ((preItem != null)?preItem.firstChild.nodeValue:null));
+        }
+    </script>
+</head>
+<body onload="searchDOM()">
+    <ul id="firstlist">
+        <li title="first list">HTML</li>
+        <li id="second">JAVASCRIPT</li>
+        <li id="css">CSS</li>
+    </ul>
+    <ul>服务器语言
+        <li>ASP.net</li>
+        <li>JSP</li>
+        <li>PHP</li>
+    </ul>
+
+</body>
+</html>

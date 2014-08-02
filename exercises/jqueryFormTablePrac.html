@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jquery's form and table pactice</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <style type="text/css">
+        #formVerti{
+            border: 1px solid #000000;
+            height: 300px;
+            width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            text-align: center;
+            padding-top: 30px;
+        }
+        /*input:focus,textarea:focus{*/
+            /*border: 1px solid #f00;*/
+            /*background:#fcc;*/
+        /*}*/
+        span:not(.selection span){
+            text-align: center;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+            border: 1px solid #000000;
+            cursor: default;
+        }
+        .selection span{
+            display: inline-block;
+            background-color: lightgrey;
+            border: 1px solid #696969;
+        }
+        div.selection{
+            display: inline-block;
+        }
+        .focus{
+            border: 1px solid #f00;
+            background-color: darkgrey;
+        }
+    </style>
+    <script src="../jQueryLib/jquery-1.11.1.min.js"></script>
+    <script>
+        $(function(){
+            $(":text").focus(function(){
+                $(this).addClass("focus")
+                        .blur(function(){
+                            $(this).removeClass("focus");
+                        });
+            })
+            var $msg = $("#msg");
+            $(".bigger").click(function(){
+                if(!$msg.is(":animated")){
+                    if($msg.height()<300){
+//                    $msg.height($msg.height()+50);
+                        $msg.animate({height : "+=50"},400);
+                    }
+                }
+            });
+            $(".smaller").click(function(){
+                if(!$msg.is(":animated")){
+                    if($msg.height()>100){
+//                    $msg.height($msg.height()-50);
+                        $msg.animate({height:"-=50"},400);
+                    }
+                }
+            });
+            $(".up").click(function(){
+                if(!$msg.is(":animated")){
+//                    $msg.scrollTop($msg.scrollTop()-20);
+                    $msg.animate({scrollTop:"-=20"},100);
+                }
+            });
+            $(".down").click(function(){
+                if(!$msg.is(":animated")){
+//                    $msg.scrollTop($msg.scrollTop()+20);
+                    $msg.animate({scrollTop:"+=20"},100);
+                }
+            });
+            $("#checkAll").click(function(){
+//                if(this.checked){
+//                    $("[name=items]:checkbox").prop("checked",true);
+//                }else{
+//                    $("[name=items]:checkbox").prop("checked",false);
+//                }
+                $("[name=items]:checkbox").prop("checked",this.checked);
+            });
+            $("#add").click(function(){
+                $("#select1 option:selected").appendTo("#select2");
+            });
+            $("#addAll").click(function(){
+                $("#select1 option").appendTo("#select2");
+            });
+            $("#remove").click(function(){
+                $("#select2 option:selected").appendTo("#select1");
+            });
+            $("#removeAll").click(function(){
+                $("#select2 option").appendTo("#select1");
+            });
+            $("#select1 option").dblclick(function(){
+                $(this).appendTo("#select2");
+            });
+//            $("#select2 option").dblclick(function(){
+//                $(this).appendTo("#select1");//这个出现了问题！
+//            });
+            $("#select2").dblclick(function(){
+                $("option:selected",this).appendTo("#select1");
+            });
+            $("form :input.required").each(function(){
+                var $required = $("<strong class='high'>*</strong>");
+                $(this).parent().append($required);
+            })
+            $("form :input").blur(function(){
+                var $parent = $(this).parent();
+                $parent.find(".message").remove();
+                if($(this).is("#user")){
+                    if(this.value == ""||this.value.length < 6){
+                        var errormsg = "wrong username ";
+                        $parent.append("<span class='message onerror'>"+errormsg+"</span>");
+                    }else{
+                        var okmsg = "correct!";
+                        $parent.append("<span class='message'>"+okmsg+"</span> ");
+                    }
+                }
+            }).keyup(function(){
+                        $(this).triggerHandler("blur");
+                    }).focus(function(){
+                        $(this).triggerHandler("blur");
+                    });
+            $("#send").click(function(){
+                $("form :input.required").trigger("blur");
+                var numerror = $("form .onerror").length;
+                if(numerror){
+                    return false;
+                }
+                alert("注册成功")
+            });
+        })
+    </script>
+</head>
+<body>
+<form action="#" method="post" id="regForm">
+    <fieldset>
+        <legend>个人基本信息</legend>
+        <div>
+            <label for="username">名称</label>
+            <input id="username" type="text">
+        </div>
+        <div>
+            <label for="pass">密码</label>
+            <input id="pass" type="password">
+        </div>
+        <div class="changeSize">
+            <span class="smaller">-</span>
+            <span class="bigger">+</span>
+            <span class="up">向上</span>
+            <span class="down">向下</span>
+        </div>
+        <div>
+            <label for="msg">详细信息</label>
+            <textarea id="msg" rows="5" cols="40">多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，多行文本框高度变化，</textarea>
+        </div>
+        <div>
+            <input type="checkbox" id="checkAll">全选
+            <input type="checkbox" name="items" value="football">足球
+            <input type="checkbox" name="items" value="basketball">篮球
+            <input type="checkbox" name="items" value="swimming">游泳
+        </div>
+
+
+        <div class="selection">
+            <select multiple="multiple" id="select1" style="width: 300px;height: 160px;">
+                <option value="1">选项1</option>
+                <option value="2">选项2</option>
+                <option value="3">选项3</option>
+            </select>
+            <div>
+                <span id="add">选中添加到右边&gt;&gt;</span>
+                <span id="addAll">全部添加到右边&gt;&gt;</span>
+            </div>
+        </div>
+        <div class="selection">
+            <select multiple="multiple" id="select2" style="width: 300px;height: 160px;"></select>
+            <div>
+                <span id="remove">&lt;&lt;选中删除到左边</span>
+                <span id="removeAll">&lt;&lt;全部删除到左边</span>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<form action="#" method="post" id="formVerti">
+    <div class="int">
+        <label for="user">用户名：</label>
+        <input type="text" id="user" class="required"/>
+    </div>
+    <div class="int">
+        <label for="email">邮箱：</label>
+        <input type="email" id="email" class="required" />
+    </div>
+    <div class="int">
+        <label for="personinfo">个人信息：</label>
+        <input type="text" id="personinfo" />
+    </div>
+    <div class="sub">
+        <input type="submit" value="提交" id="send"><input type="reset" value="重置" id="reset"/>
+    </div>
+</form>
+</body>
+</html>

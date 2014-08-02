@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS window</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+</head>
+
+<body>
+
+<p id="demo"></p>
+
+<script>
+    var w=window.innerWidth
+            ||document.documentElement.clientWidth
+            ||document.body.clientWidth;
+
+    var h=window.innerHeight
+            ||document.documentElement.clientHeight
+            ||document.body.clientHeight;
+
+    x=document.getElementById("demo");
+    x.innerHTML = "浏览器的内部窗口宽度：" + w + "，高度：" + h + "。";
+    document.writeln("你的屏幕: ")
+    document.writeln(screen.availWidth);
+    document.writeln(screen.availHeight)
+    document.writeln(screen.colorDepth)
+    document.writeln(screen.width)
+    document.writeln(screen.height+"<br>");
+    document.write(location.href+"    "+location.hash+"    "+location.host+"    "+location.pathname
+            +"    "+location.port+"    "+location.protocol+"    "+location.search+"<br>");
+    window.location.href = "http://www.google.com";
+//    location.replace("http://www.baidu.com");
+//    location.reload(false);
+    var userAgent = navigator.userAgent;
+    document.writeln(userAgent);
+    window.moveTo(0,0);
+    window.resizeTo(screen.availWidth,screen.availHeight);
+</script>
+
+</body>
+
+</html>

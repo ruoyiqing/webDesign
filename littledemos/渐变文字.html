@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>渐变文字</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="huangruiqing">
+
+    <script language="javascript">
+        function delta(minHex,maxHex,num){
+            //计算每个字的颜色变化差值
+            var dec1 = parseInt("0x"+minHex);
+            var dec2 = parseInt("0x"+maxHex);
+            return (dec2-dec1)/(num-1);
+        }
+        function colorFul(text,color1,color2){
+            if(text.length<=1){
+                //如果只有一个字符，渐变无从谈起，直接以最小颜色输出即可
+                document.write("<textarea style='color:#"+color1+";'>"+text+"</textarea>");
+                return;
+            }
+            //如果不是只有一个字符
+            var deltaR = delta(color1.substring(0,2),color2.substring(0,2),text.length);
+            var deltaG = delta(color1.substr(2,2),color2.substr(2,2),text.length);
+            var deltaB = delta(color1.substr(4,2),color2.substr(4,2),text.length);
+            var colorR = parseInt("0x"+color1.substring(0,2));
+            var colorG = parseInt("0x"+color1.substring(2,4));
+            var colorB = parseInt("0x"+color1.substring(4,6));
+            for(var i=0;i<text.length;i++){
+                document.write("<span style='color:rgb("+Math.round(colorR)+","+Math.round(colorG)+","+Math.round(colorB)+");'>"+text.substring(i, i+1)+"</span>");
+
+                colorR += deltaR;
+                colorG += deltaG;
+                colorB += deltaB;
+            }
+        }
+        colorFul("我是一个小小小鸟，怎么飞也飞不高,你不知道我们是多么的四面","111111","999999");
+    </script>
+</head>
+<body>
+
+</body>
+</html>

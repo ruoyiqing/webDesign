@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>节点操作</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <script>
+        function createNode(){
+            var para = document.createElement("p");
+            var text = document.createTextNode("这是一段开始");
+            para.appendChild(text);
+            document.body.appendChild(para);
+        }
+        function deleteNode(){
+            var p1 = document.getElementsByTagName("p")[1];
+            p1.parentNode.removeChild(p1);
+        }
+        function replaceNode(){
+            var oldp1 = document.getElementsByTagName("p")[0];
+            var newp1 = document.createElement("p");
+            var text = document.createTextNode("我把第一段文字替换了");
+            newp1.appendChild(text);
+            oldp1.parentNode.replaceChild(newp1,oldp1);
+        }
+        function insertNode(){
+            var target = document.getElementsByTagName("p")[0];
+            var insert = document.createElement("p");
+            var text = document.createTextNode("插入一段话");
+            insert.appendChild(text);
+            target.parentNode.insertBefore(insert,target);
+        }
+        function appendNodes(){
+            var paras = ["one","two","three","four","five","six","seven"];
+            var frag = document.createDocumentFragment();
+            for(var i = 0;i<paras.length;i++){
+                var para = document.createElement("p");
+                var text = document.createTextNode(paras[i]);
+                para.appendChild(text);
+                frag.appendChild(para);
+            }
+            document.body.appendChild(frag);
+        }
+        function insertAfter(newElement,targetElement){
+            var parent = targetElement.parentNode;
+            if(parent.lastChild == targetElement){
+                parent.appendChild(newElement);
+            }else{
+                parent.insertBefore(newElement,targetElement.nextSibling);
+            }
+        }
+        function insertP(){
+            var target = document.getElementsByTagName("p")[6];
+            var newp = document.createElement("p");
+            var text = document.createTextNode("insert after function");
+            newp.appendChild(text);
+            insertAfter(newp,target);
+        }
+        function innerHTML(){
+            var old = document.getElementsByTagName("div");
+            alert(old[0].innerHTML);
+            old[0].innerHTML = "<p>div块中内容被改变了</p>";
+        }
+    </script>
+    <style type="text/css">
+        .para1{
+            color: red;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: "Microsoft YaHei";
+        }
+        .para2{
+            color: #000000;
+            font-style: italic;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <p>这是页面中第一段话</p>
+    <script>
+        createNode();
+        deleteNode();
+        replaceNode();
+        insertNode();
+        appendNodes();
+        insertP();
+    </script>
+    <div>
+        <a href="http://www.baidu.com">百度首页</a>
+    </div>
+    <script>
+        innerHTML();
+    </script>
+    <P class="para1">这是最后一段话</P>
+    <script>
+        alert("改变样式");
+        document.getElementsByClassName("para1")[0].style.color="black";
+        alert("再次改变样式");
+        document.getElementsByClassName("para1")[0].className = "para2";
+    </script>
+</body>
+</html>

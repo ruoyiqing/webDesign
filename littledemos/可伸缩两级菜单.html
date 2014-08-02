@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>两级菜单</title>
+    <meta charset="utf-8">
+    <style>
+        #navigation > ul {
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+            width: 300px;
+        }
+        #navigation > ul > li > a {
+            text-decoration: none;
+            display: block;
+            padding: 5px 5px 5px 0.5em;
+            border-bottom: 1px solid #ED9F9F;
+            /*text-align: center;*/
+            border-left: 10px solid #711515;
+            border-right: 1px solid #711515;
+        }
+        #navigation > ul > li > a:link,#navigation > ul > li > a:visited{
+            background-color: #AAAAAA;
+            color: #ffffff;
+        }
+        #navigation > ul > li > a:hover{
+            background-color: #C0C0C0;
+            color: #000000;
+        }
+        #navigation > ul > li > ul {
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+        }
+        #navigation > ul > li > ul >li >a {
+            display: block;
+            text-decoration: none;
+            border-bottom: 1px solid #ED9F9F;
+            /*text-align: center;*/
+            border-left: 28px solid #a71f1f;
+            border-right: 1px solid #711515;
+            background-color: lightblue;
+        }
+        .myhide{
+            display: none;
+        }
+        .myshow{
+            display: block;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            var oUL = document.getElementById("tipsUl")
+            var oLI = oUL.childNodes;
+            var oA;
+            for(var i=0;i<oLI.length;i++){
+                if(oLI[i].tagName == "LI" && oLI[i].getElementsByTagName("ul").length){
+                    oA = oLI[i];
+                    alert(oA.nodeName + oA.nodeValue);
+                    oA.onclick = change;
+                }
+            }
+        }
+        function change(){
+            var sibling = this.getElementsByTagName("ul")[0];
+            if(sibling.className == "myhide")
+            sibling.className = "myshow";
+            else
+            sibling.className = "myhide";
+        }
+    </script>
+</head>
+<body>
+    <div id="navigation">
+        <ul id="tipsUl">
+            <li><a href="#">home</a></li>
+            <li><a href="#">news</a>
+                <ul class="myhide">
+                    <li><a href="#">latest news</a></li>
+                    <li><a href="#">all news</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>练习一下</title>
+    <meta charset="utf-8">
+    <style>
+        .first{
+            /*background-color: blanchedalmond;*/
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+        }
+        li {
+
+            margin: 0px;
+
+            /*border-left: 12px solid black;*/
+            /*border-bottom: 12px solid #ffffff;*/
+            /*border-top: 12px solid #ffffff;*/
+        }
+        .second li{
+            border-left: 0;
+            /*margin-left: 5px;*/
+
+        }
+        .second{
+            /*background-color: blue;*/
+            list-style-type: none;
+            padding:0px;
+            margin-left: 10px;
+        }
+        a {
+            display: block;
+            border-bottom: 1px solid #ffffff;
+            padding: 5px 5px 5px 15px;
+            background-color: brown;
+        }
+        table {
+            height: 500px;
+            width: 500px;
+            border-collapse: collapse;
+            caption-side: top;
+            empty-cells: show;
+            border-color: blue;
+            border-style: solid;
+        }
+        table caption{
+            border: 1px solid #000000;
+            background-color: gainsboro;
+            font-size: 20px;
+
+        }
+        table th,table td{
+            vertical-align: top;
+            text-align: center;
+            border: 1px solid red;
+        }
+        #table1 tr:first-child{
+            background-color: yellow;
+        }
+        #table1 tr:last-child{
+            background-color: greenyellow;
+        }
+        #table1 tr:nth-child(2){
+            background-color: yellowgreen;
+        }
+        #lastline{
+            width: 100px;
+            height: 300px;
+            border: 2px solid red;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            var oTable = document.getElementById("table1");
+            oTable.rows[0].innerHTML += "<th>delete</th>";
+
+            for(var i= 1; i<oTable.rows.length;i++){
+                var oTd = oTable.rows[i].insertCell(5);
+                oTd.innerHTML = "<a href='#'>delete</a>";
+                oTd.firstChild.onclick = mydelete;
+            }
+            var oForm = document.forms["form1"];
+            var comment = oForm.elements.comments;
+//            alert(comment.type+","+comment.form+","+comment.name+","+comment.value);
+        }
+        function mydelete(){
+            this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+        }
+        function addRow(index){
+            var oTr = document.getElementById("table1").insertRow(index);
+            var oText = new Array();
+            oText[0] = document.createTextNode("cell-1");
+            oText[1] = document.createTextNode("cell-2");
+            oText[2] = document.createTextNode("cell-3");
+            for(var i=0; i<oText.length; i++){
+                var oTd = oTr.insertCell(i);
+                oTd.appendChild(oText[i]);
+            }
+        }
+        function addRow1(index){
+            var oTr = document.getElementById("tbody1").insertRow(index);
+            oTr.innerHTML = "<th> test</th> <td>1</td><td>2</td>";
+            var oTable = document.getElementById("table1");
+            oTable.rows[0].cells[0].innerHTML = "test";
+        }
+        function onceSubmit(oInput){
+            oInput.disabled = "true";
+            oInput.form.submit();
+        }
+        function getChoice(){
+            var oForm = document.forms["form1"];
+            var choice = oForm.camera;
+//            var i= 0;
+            for(i = 0; i<choice.length;i++){
+                if(choice[i].checked)
+                break;
+            }
+            alert("您选中的相机是： "+choice[i].value);
+        }
+        function setChoice(num){
+            var oForm = document.forms["form1"];
+            oForm.camera[num].checked = "true";
+        }
+        function selection(action){
+            var oForm = document.forms["form1"];
+            var idols = oForm.idol;
+            for(var i=0;i<idols.length;i++){
+                if(action<0){
+                    idols[i].checked = !idols[i].checked;
+                }else
+                idols[i].checked = action;
+            }
+        }
+        function checkMulti(){
+            var oForm = document.forms["form1"];
+            var seleted = oForm.color;
+            var choiceList = new Array();
+            for(var i=0; i<seleted.length;i++){
+                if(seleted.options[i].selected)
+                choiceList.push(seleted.options[i].text);
+            }
+            alert("您选了： "+choiceList.join());
+        }
+    </script>
+</head>
+<body>
+    <ul class="first">
+        <li><a>1</a></li>
+        <li><a>2</a>
+            <ul class="second">
+                <li><a>2.1</a></li>
+            </ul>
+        </li>
+    </ul>
+    <table id="table1" summary="this table shows the years from 2005 to 2008">
+        <tbody id="tbody1">
+        <tr>
+            <th></th>
+            <th>2005</th>
+            <th>2006</th>
+            <th>2007</th>
+            <th>2008</th>
+        </tr>
+        <tr>
+            <th>sales</th>
+            <td>2000</td>
+            <td>2000</td>
+            <td>2000</td>
+            <td>2000</td>
+        </tr>
+        <tr>
+            <th>sum</th>
+            <td>30000</td>
+            <td>30000</td>
+            <td>30000</td>
+            <td>30000</td>
+        </tr>
+        </tbody>
+        <caption onclick= addRow1(2)>Table One</caption>
+    </table>
+    <form name="form1" method="post">
+        <p><label for="name">请输入你的姓名：<br></label><input type="text" name="name" id="name" value="name" maxlength="10" onmouseover="this.focus()" onfocus="this.select()"></p>
+        <p><label for="passwd">请输入你的密码</label><br><input type="password" name="passwd" id="passwd"></p>
+        <p><label for="color">请选择你最喜欢的颜色</label><br>
+            <select name="color" id="color" multiple="multiple">
+                <option value="red">红</option>
+                <option value="green" selected="selected">绿</option>
+                <option value="blue">蓝</option>
+            </select>
+        </p>
+        <p><input type="button" value="查看选项" onclick="checkMulti()"></p>
+        <p><label for="comments">我要留言</label><br><textarea name="comments" id="comments" placeholder="......" cols="30" rows="4" maxlength="50" onmouseover="this.focus()" onfocus="this.select()"></textarea></p>
+        <p>你使用的相机品牌是：<br>
+            <input type="radio" name="camera" id="sony" value="sony">
+            <label for="sony">索尼</label>
+        </p>
+        <p>
+            <input type="radio" name="camera" id="canon" value="canon">
+            <label for="canon">佳能</label>
+        </p>
+        <p>
+            <input type="button" value="检测选中对象" onclick="getChoice();">
+            <input type="button" value="设置为索尼" onclick="setChoice(0);">
+        </p>
+        <p>你喜欢的偶像是：<br>
+            <input type="checkbox" name="idol" id="zhaowei" value="zhaowei">
+            <label for="zhaowei">赵薇</label>
+        </p>
+        <p>
+            <input type="checkbox" name="idol" id="wu" value="wujianhao">
+            <label for="wu">吴建豪</label>
+        </p>
+        <p>
+            <input type="checkbox" name="idol" id="tang" value="tangwei">
+            <label for="tang">汤唯</label>
+        </p>
+        <p>
+            <input type="button" value="全选" onclick="selection(1)">
+            <input type="button" value="全不选" onclick="selection(0)">
+            <input type="button" value="反选" onclick="selection(-1)">
+        </p>
+        <p><input type="button" value="submit"></p>
+    </form>
+    <span id="lastline">this is last line!!</span>
+</body>
+</html>

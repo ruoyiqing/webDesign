@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GET VS POST</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <script language="JavaScript" src="ajaxgold.js"></script>
+    <script language="javascript">
+        var xmlHttp;
+        function createXMLHttpReqest(){
+            if(window.ActiveXObject) xmlHttp = new ActiveXObject("Microsoft.XMLHttp");
+            else if(window.XMLHttpRequest) xmlHttp = new XMLHttpRequest();
+        }
+        function createQueryString(){
+            var firstName = document.getElementById("firstName").value;
+            var birthday = document.getElementById("birthday").value;
+            var queryString = "firstName="+firstName+"&birthday="+birthday;
+            return encodeURI(encodeURI(queryString));//解决post方式出现乱码，采用两次编码，一次解码的方式
+        }
+        function handleStateChange(){
+            if(xmlHttp.readyState==4 && xmlHttp.status==200){
+                var responseDiv = document.getElementById(serverResponse);
+                responseDiv.innerHTML = decodeURI(xmlHttp.responseText);
+            }
+        }
+        function doRequestUsingGET(){
+            createXMLHttpReqest();
+            var queryString = "9.aspx?";
+            queryString += createQueryString()+"&timestamp="+new Date().getTime();
+            xmlHttp.onreadystatechange = handleStateChange();
+            xmlHttp.open("GET",queryString);
+            xmlHttp.send(null);
+        }
+        function doRequestUsingPOST(){
+            createXMLHttpReqest();
+            var queryString = createQueryString();
+            var url = "9.aspx?timestamp="+new Date().getTime();
+            xmlHttp.onreadystatechange = handleStateChange();
+            xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xmlHttp.open("POST",url);
+            xmlHttp.send(queryString);
+        }
+        function multiAjaxRequest(url,query,showSpan){
+            var xmlHttp;
+            if(window.ActiveXObject) xmlHttp = new ActiveXObject("Microsoft.XMLHttp");
+            else if(window.XMLHttpRequest) xmlHttp = new XMLHttpRequest();
+            var queryString = url + "?";
+            queryString += createQueryString(query)+"&timestamp="+new Date().getTime();
+            xmlHttp.onreadystatechange = function(){
+                var responseSpan = document.getElementById(showSpan);
+                responseSpan.innerHTML = xmlHttp.responseText;
+                delete xmlHttp;
+                xmlHttp = null;
+            }
+            xmlHttp.open("GET",queryString);
+            xmlHttp.send(null);
+        }
+        function display(text){
+            document.getElementById("serverResponse").innerHTML += text;
+        }
+    </script>
+</head>
+<body>
+<h2>输入姓名和生日</h2>
+ <form >
+    <input type="text" id="firstName"/><br/>
+    <input type="text" id="birthday"/>
+ </form>
+ <form>
+    <input type="button" value="GET" onclick="doRequestUsingGET();"/><br/>
+    <input type="button" value="POST" onclick="doRequestUsingPOST();"/><br/>
+    <input type="button" value="get message via AjaxGold" onclick="postDataReturnText('9.asp','firstName=huang&birthday=1990',display);"/><br/>
+ </form>
+<div id="serverResponse"></div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>自动提示的文本框</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <style>
+      #input{
+          margin: 0px 0px 0px 100px;
+      }
+      #search{
+          margin: 0px;
+          width: 500px;
+          height: 20px;
+          font-size: 20px;
+      }
+      #tips{
+          /*position: absolute;*/
+          /*left: 100px;*/
+          /*top: 30px;*/
+          margin: 0px 0px 0px 100px;
+          font-size: 15px;
+          width: 500px;
+      }
+      #tips.show{
+          border: 2px solid gainsboro;
+      }
+      #tips.hide{
+          border: none;
+      }
+        #list{
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+        }
+        #list li.mouseOver{
+            background-color: #004a7e;
+            color: #ffffff;
+        }
+        #list li.mouseOut{
+            color: #004a7e;
+        }
+    </style>
+    <script type="javascript" src="../AjaxPractice/ajaxgold.js"></script>
+    <script>
+        var inputField;
+        var oDiv;
+        var tipsUl;
+        var tips = ["red","orange","yellow","green","black","brown","blue","grey","purple","pink"];
+        tips.sort();//按字母排序
+        function initialize(){
+            inputField = document.forms["input"].search;
+            oDiv = document.getElementById("tips");
+            tipsUl = document.getElementById("list");
+        }
+        function findColors(){
+            initialize();//先执行初始化操作
+            if(inputField.value.length>0){
+                var result = new Array();//用来装符合的提示
+                for(var i=tips.length-1;i>=0;i--){
+                    if(tips[i].indexOf(inputField.value)==0){//判断输入值是否为提示选项的开头值
+                        result.push(tips[i]);
+                    }
+                }
+                if(result.length>0){
+                    showTips(result);
+                }else
+                    clearTips();
+            }else //为了往回删除所有输入值时不显示之前的提示，这一步很重要
+            clearTips();
+        }
+        function findColors2(){
+            initialize();
+            if(inputField.value.length>0){
+                getDataReturnText("9.aspx?color="+inputField.value+"&timestamp="+new Date().getTime(),getResult);
+            }else clearTips();
+        }
+        function getResult(text){
+            var result = [];
+            if(text.length){
+                result = text.split(",");
+                showTips(result);
+            }else clearTips();
+
+        }
+        function showTips(result){
+            //没输入一个字母就需要清除原先的提示
+            clearTips();
+            oDiv.className = "show";//改变div块的class值，使其显现边框
+            var oLi;
+            for(var i=0;i<result.length;i++){
+                oLi = document.createElement("li");
+                tipsUl.appendChild(oLi);
+                oLi.appendChild(document.createTextNode(result[i]));
+                oLi.onmouseover = function(){
+                    this.className = "mouseOver";
+                }
+                oLi.onmouseout = function(){
+                    this.className = "mouseOut";
+                }
+                oLi.onclick = function(){
+                    inputField.value = this.firstChild.nodeValue;//当选中某个匹配项时，设置输入框为该项的值
+                    clearTips();
+                }
+            }
+
+        }
+        function clearTips(){
+            for(var i=tipsUl.childNodes.length-1;i>=0;i--){
+                tipsUl.removeChild(tipsUl.childNodes[i]);
+            }
+            oDiv.className = "hide";
+        }
+    </script>
+</head>
+<body>
+    <form method="post" name="input" id="input">
+        <input type="text" name="search" id="search" onfocus="this.style.border ='1px solid blue';" onblur="this.style.border='';" onkeyup="findColors();">
+    </form>
+    <div id="tips">
+        <ul id="list"></ul>
+    </div>
+</body>
+</html>

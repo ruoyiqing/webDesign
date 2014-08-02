@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>可自动校验的表单</title>
+    <meta charset="UTF-8">
+    <script>
+        function createRequest(input){
+            var xmlRequest;
+            if(window.ActiveXObject) xmlRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            else if(window.XMLHttpRequest) xmlRequest = new XMLHttpRequest();
+            var url = "9.aspx?user="+ input.value.toLowerCase()+"&timestamp="+new Date().getTime();
+            xmlRequest.onreadystatechange=function(){
+                if (xmlRequest.readyState==4 && xmlRequest.status==200){
+                    showResult(xmlRequest.responseText);
+                }
+            }
+            xmlRequest.open("GET",url,true);
+            xmlRequest.send(null);
+        }
+        function showResult(result){
+            var showPlace = document.getElementById("userResult");
+            showPlace.innerHTML = result;
+            if(result.indexOf("already exists")>=0)showPlace.style.color="red";
+            else showPlace.style.color = "black";
+        }
+        function startCheck(input){
+            if(!input.value){
+                input.focus();
+                document.getElementById("userResult").innerHTML = "user cannot be empty";
+                return;
+            }
+            createRequest(input);
+        }
+    </script>
+</head>
+<body>
+<form name="register">
+    <table cellpadding="5px" cellspacing="0" border="0">
+        <tr>
+            <td>用户名：</td>
+            <td><input type="text" name="user" onblur="startCheck(this)"></td>
+            <td><span id="userResult"></span></td>
+        </tr>
+        <tr>
+            <td>输入密码：</td>
+            <td><input type="password" name="password1"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>确认密码：</td>
+            <td><input type="password" name="password2"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="注册">
+                <input type="reset" value="重置">
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

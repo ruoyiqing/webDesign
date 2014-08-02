@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<script>//1
+    alert("javascript before html");
+</script>
+<html>
+<head>
+    <title>测试javascript的执行顺序</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script>//第2步
+        alert("javascript in head tag");
+    </script>
+    <script src="../js1.js">//第3步
+
+    </script>
+</head>
+<body onload="alert(new Date());"> <!--第8步-->
+    <script>//第4步
+        alert("javascript in body tag");
+    </script>
+    <script src="../js2.js">//第5步
+    </script>
+</body>
+<script>//6
+    alert("javascript between body and html");
+</script>
+</html>
+<script >//第7步
+    alert("javascript outside html tag");
+</script>

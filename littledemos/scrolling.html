@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>effects about scrolling</title>
+    <script src="../jQueryLib/jquery-2.1.1.min.js"></script>
+    <script src="../jQueryLib/jquery-1.11.1.min.js"></script>
+    <style>
+        #topTag{
+            position: fixed;
+            bottom: 100px;
+            right: 100px;
+            z-index: 100;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            display: none;
+            color: #ffffff;
+            font-size: 25px;
+            background-color: #B22222;
+            opacity:0.3 ;
+            border-radius: 2.0em;
+            cursor: default;
+        }
+        #header{
+            height:100px ;
+            width: 100%;
+            margin-bottom: 10px;
+            background-color: #ED9F9F;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index: 100;
+            transition:all 0.2s ease 0s;
+            -moz-transition:all 0.2s ease 0s;
+            webkit-transition:all 0.2s ease 0s;
+            -o-transition:all 0.2s ease 0s;
+        }
+
+        #content{
+            height: 2000px;
+            margin-bottom: 10px;
+            background-color: #C0C0C0;
+            margin-top: 100px;
+            /*margin-bottom: 100px;*/
+        }
+        #footer{
+            height: 100px;
+            width: 100%;
+            background-color:#004a87;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            z-index: 100;
+            /*display: none;*/
+
+        }
+        #tips{
+            height: 100px ;
+            width: 100%;
+            background-color: #ff0000;
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    </style>
+    <script>
+        var lastScrollLocation = 0;
+        window.onload = function(){
+            top.onclick = function(){
+//                window.scrollTo(0,0);
+                $("html").animate({scrollTop:0},1000);
+            }
+        }
+        window.onscroll = function(){
+            var topShowHeight = 300;
+            var header = document.getElementById("header");
+            var top = document.getElementById("topTag");
+            var foot = document.getElementById("footer");
+            var headerHeight = header.offsetHeight;
+            //header.offsetHeight此值在display为none时为0
+//            console.log("header height"+headerHeight);
+            var scrollTop = window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop;
+//            scrollTop = $(window).scrollTop();
+            var windowHeight = $(window).height();
+            var docHeight = $(document).height();
+            var bottom = docHeight-(windowHeight+scrollTop);
+
+            if(scrollTop < lastScrollLocation){
+//                header.className = "show";
+                header.style.height = "100px";
+
+            }else if(scrollTop >= headerHeight){
+//                header.className = "hide";
+                header.style.height = "0px";
+            };
+            window.lastScrollLocation = scrollTop;
+
+            if(scrollTop > topShowHeight){
+//                top.style.display="block";
+                $(top).fadeIn(500);
+            }else{
+//                top.style.display="none";
+                $(top).fadeOut(500);
+            }
+            if(bottom == 0){
+                foot.style.height = "100px";
+            }else{
+                foot.style.height = "0";
+            }
+
+        }
+    </script>
+</head>
+<body>
+<div id="container">
+    <div id="topTag">TOP</div>
+    <div id="header"></div>
+    <div id="content"></div>
+    <div id="footer"></div>
+    <div id="tips"></div>
+</div>
+</body>
+</html>

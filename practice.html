@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>页面元素的水平居中</title>
+    <script>
+        window.onload=function(){
+            var outer = document.getElementsByTagName("div")[0];
+            var inner = document.getElementsByTagName("a")[0];
+            outer.onclick = function(){
+                alert('outer');
+            }
+            inner.onclick = function(event){
+                alert('inner');
+//            return false;
+                event.preventDefault();
+//            event.stopPropagation();
+            }
+        }
+    </script>
+    <script>
+        if(window.ActiveXObject){
+            var xmlHttpReq = window.ActiveXObject;
+        }else if(window.XMLHttpRequest){
+            var xmlhttpReq = new XMLHttpRequest();
+        }
+        xmlHttpReq.open("GET","")
+    </script>
+</head>
+<body>
+<div  >
+    <a href="http://www.baidu.com"  >百度</a>
+</div>
+</body>
+</html>
